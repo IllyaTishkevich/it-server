@@ -30,10 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'name:ntext',
-            'games_id:ntext',
             [
                 'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Service $model, $key, $index, $column) {
+                'urlCreator' => function ($action, app\models\Service $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }
             ],

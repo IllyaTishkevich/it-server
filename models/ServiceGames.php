@@ -5,19 +5,20 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "service".
+ * This is the model class for table "service_games".
  *
  * @property int $id
- * @property string|null $name
+ * @property string|null $service_id
+ * @property string|null $games_id
  */
-class Service extends \yii\db\ActiveRecord
+class ServiceGames extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'service';
+        return 'service_games';
     }
 
     /**
@@ -26,7 +27,7 @@ class Service extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'string'],
+            [['service_id', 'games_id'], 'string'],
         ];
     }
 
@@ -37,7 +38,8 @@ class Service extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'service_id' => 'Service ID',
+            'games_id' => 'Games ID',
         ];
     }
 }

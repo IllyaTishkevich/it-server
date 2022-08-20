@@ -18,7 +18,7 @@ class ApiController extends \yii\web\Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         $games = Games::find()->all();
-        return [$games];
+        return $games;
 
     }
 

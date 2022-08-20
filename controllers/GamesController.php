@@ -8,6 +8,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use app\models\Service;
+use app\models\ServiceGames;
 
 /**
  * GamesController implements the CRUD actions for Games model.
@@ -84,8 +86,11 @@ class GamesController extends Controller
             $model->loadDefaultValues();
         }
 
+        $services = Service::find()->all();
+
         return $this->render('create', [
             'model' => $model,
+            'services' => $services,
         ]);
     }
 
@@ -100,7 +105,16 @@ class GamesController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
+        if ($this->request->isPost ) {
+            $model->load($this->request->post());
+            $model->save();
+            $image = UploadedFile::getInstance($model, 'img');
+            if($model->upload($image)) {
+                // file is uploaded successfully
+                $model->img = '/uploads/'.$image->name;
+                $model->save();
+            }
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
