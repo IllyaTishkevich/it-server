@@ -16,8 +16,8 @@ class m220820_201429_service_ids extends Migration
 
         $this->createTable('{{%service_games}}', [
             'id' => $this->primaryKey(),
-            'service_id' => $this->text(),
-            'games_id' => $this->text()
+            'service_id' => $this->integer(),
+            'games_id' => $this->integer()
         ]);
     }
 

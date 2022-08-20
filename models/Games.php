@@ -12,9 +12,12 @@ use yii\web\UploadedFile;
  * @property string|null $name
  * @property string|null $description
  * @property string|null $img
+ * @property array|[] $services
  */
 class Games extends \yii\db\ActiveRecord
 {
+    public $services = [];
+
     /**
      * {@inheritdoc}
      */
@@ -30,6 +33,7 @@ class Games extends \yii\db\ActiveRecord
     {
         return [
             [['name', 'description', 'img'], 'string'],
+            [['services'], 'array']
         ];
     }
 
@@ -42,6 +46,7 @@ class Games extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'description' => 'Description',
+            'services' => '',
             [['img'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
         ];
     }

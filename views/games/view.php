@@ -5,6 +5,7 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Games */
+/* @var $services array */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Games', 'url' => ['index']];
@@ -26,14 +27,41 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'name:ntext',
-            'description:ntext',
-            'img:ntext',
-        ],
-    ]) ?>
+    <table id="w0" class="table table-striped table-bordered detail-view">
+        <tbody>
+        <tr>
+            <th>ID</th>
+            <td><?=$model->id?></td>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <td><?=$model->name?></td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td><?=$model->description?></td>
+        </tr>
+        <tr>
+            <th>Img</th>
+            <td>
+                <?php if($model->img) : ?>
+                    <img src="./<?=$model->img?>">
+                <?php endif; ?>
+            </td>
+        </tr>
+        <tr>
+            <th>Services</th>
+            <td>
+                <ol>
+                <?php foreach ($services as $service) : ?>
+                    <li>
+                        <?=$service->name?>
+                    </li>
+                <?php endforeach;?>
+                </ol>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 
 </div>

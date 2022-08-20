@@ -8,8 +8,8 @@ use Yii;
  * This is the model class for table "service_games".
  *
  * @property int $id
- * @property string|null $service_id
- * @property string|null $games_id
+ * @property int|null $service_id
+ * @property int|null $games_id
  */
 class ServiceGames extends \yii\db\ActiveRecord
 {
@@ -27,7 +27,7 @@ class ServiceGames extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['service_id', 'games_id'], 'string'],
+            [['service_id', 'games_id'], 'integer'],
         ];
     }
 

@@ -58,8 +58,14 @@ class GamesController extends Controller
      */
     public function actionView($id)
     {
+        $serviceGames = ServiceGames::findAll(['games_id' => $id]);
+        $services = [];
+        foreach ($serviceGames as $serviceGame) {
+            $services[] = Service::findOne(['id' => $serviceGame->service_id]);
+        }
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'services' => $services
         ]);
     }
 
@@ -74,18 +80,42 @@ class GamesController extends Controller
 
         if ($this->request->isPost) {
             $model->load($this->request->post());
-            $model->save();
+
+            $post = $this->request->post();
+
             $image = UploadedFile::getInstance($model, 'img');
-            if($model->upload($image)) {
+            if($image && $model->upload($image)) {
                 // file is uploaded successfully
                 $model->img = '/uploads/'.$image->name;
-                $model->save();
-                return $this->redirect(['view', 'id' => $model->id]);
             }
+
+            $model->save();
+
+            if ($post['Service']) {
+                foreach ($post['Service'] as $id => $serv) {
+                    $serviceGames = ServiceGames::find()->where(['games_id' => $model->id])
+                        ->andWhere(['service_id' => $id])->one();
+
+                    if(!$serviceGames) {
+                        if ($serv == "1") {
+                            $serviceGames = new ServiceGames();
+                            $serviceGames->games_id = $model->id;
+                            $serviceGames->service_id = $id;
+                            $serviceGames->save();
+                        }
+                    } else {
+                        if ($serv == "0") {
+                            $serviceGames->delete();
+                        }
+                    }
+
+                }
+            }
+
+            return $this->redirect(['view', 'id' => $model->id]);
         } else {
             $model->loadDefaultValues();
         }
-
         $services = Service::find()->all();
 
         return $this->render('create', [
@@ -107,19 +137,51 @@ class GamesController extends Controller
 
         if ($this->request->isPost ) {
             $model->load($this->request->post());
-            $model->save();
+
+            $post = $this->request->post();
+
             $image = UploadedFile::getInstance($model, 'img');
-            if($model->upload($image)) {
+            if($image && $model->upload($image)) {
                 // file is uploaded successfully
                 $model->img = '/uploads/'.$image->name;
-                $model->save();
+            }
+
+            $model->save();
+
+            if ($post['Service']) {
+                foreach ($post['Service'] as $id => $serv) {
+                    $serviceGames = ServiceGames::find()->where(['games_id' => $model->id])
+                        ->andWhere(['service_id' => $id])->one();
+
+                    if(!$serviceGames) {
+                        if ($serv == "1") {
+                            $serviceGames = new ServiceGames();
+                            $serviceGames->games_id = $model->id;
+                            $serviceGames->service_id = $id;
+                            $serviceGames->save();
+                        }
+                    } else {
+                        if ($serv == "0") {
+                            $serviceGames->delete();
+                        }
+                    }
+
+                }
             }
 
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
+        $services = Service::find()->all();
+        $serviceGames = ServiceGames::findAll(['games_id' => $model->id]);
+        $checked = [];
+        foreach ($serviceGames as $serviceGame) {
+            $checked[] = $serviceGame->service_id;
+        }
         return $this->render('update', [
             'model' => $model,
+            'services' => $services,
+            'checked' => $checked
         ]);
     }
 

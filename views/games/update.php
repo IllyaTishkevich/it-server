@@ -4,6 +4,8 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Games */
+/* @var $services array */
+/* @var $checked array */
 
 $this->title = 'Update Games: ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Games', 'url' => ['index']];
@@ -16,6 +18,8 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'services' => $services,
+        'checked' => $checked
     ]) ?>
 
 </div>
