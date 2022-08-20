@@ -7,6 +7,7 @@ use app\models\GamesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * GamesController implements the CRUD actions for Games model.
@@ -70,7 +71,13 @@ class GamesController extends Controller
         $model = new Games();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            $model->load($this->request->post());
+            $model->save();
+            $image = UploadedFile::getInstance($model, 'img');
+            if($model->upload($image)) {
+                // file is uploaded successfully
+                $model->img = '/uploads/'.$image->name;
+                $model->save();
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
@@ -130,5 +137,18 @@ class GamesController extends Controller
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionUploadImage() {
+        $model = new \app\models\Games();
+        if (Yii::$app->request->isPost) {
+            $model->image = UploadedFile::getInstance($model, 'image');
+            if ($model->upload()) {
+                // file is uploaded successfully
+                echo "File successfully uploaded";
+                return;
+            }
+        }
+        return $this->render('upload', ['model' => $model]);
     }
 }

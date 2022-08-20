@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "games".
@@ -41,7 +42,17 @@ class Games extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'description' => 'Description',
-            'img' => 'Img',
+            [['img'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
         ];
     }
+
+    public function upload($image) {
+        if (true) {
+            $image->saveAs('./../web/uploads/' . $image->name);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
