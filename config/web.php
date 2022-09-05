@@ -50,6 +50,10 @@ $config = [
                 [
                     'pattern' => 'api/game/<id>',
                     'route' => 'api/game',
+                ],
+                [
+                    'pattern' => 'api/lots/<id>',
+                    'route' => 'api/game',
                 ]
             ],
         ],

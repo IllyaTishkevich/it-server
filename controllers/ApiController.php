@@ -26,7 +26,9 @@ class ApiController extends \yii\web\Controller
             $gameServices = ServiceGames::findAll(['games_id' => $game->id]);
             foreach ($gameServices as $gameService)
             {
-                $gameArr['services'][] = Service::findOne(['id' => $gameService->service_id])->toArray();
+                $data = Service::findOne(['id' => $gameService->service_id])->toArray();
+                $data['id'] = $gameService->id;
+                $gameArr['services'][] = $data;
             }
             $result[] = $gameArr;
         }
@@ -49,11 +51,26 @@ class ApiController extends \yii\web\Controller
         $gameServices = ServiceGames::findAll(['games_id' => $game->id]);
         foreach ($gameServices as $gameService)
         {
-            $gameArr['services'][] = Service::findOne(['id' => $gameService->service_id])->toArray();
+            $data = Service::findOne(['id' => $gameService->service_id])->toArray();
+            $data['id'] = $gameService->id;
+            $gameArr['services'][] = $data;
         }
 
         return $gameArr;
 
+    }
+
+    public function actionLots()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $request = Yii::$app->request;
+        $params = $request->get();
+        $id = $params['id'];
+
+        $game = ServiceGames::findOne(['id' => $id]);
+
+        return $game;
     }
 
 }
