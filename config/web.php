@@ -47,6 +47,10 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                [
+                    'pattern' => 'api/game/<id>',
+                    'route' => 'api/game',
+                ]
             ],
         ],
     ],

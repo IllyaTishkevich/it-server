@@ -35,4 +35,25 @@ class ApiController extends \yii\web\Controller
 
     }
 
+    public function actionGame()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $request = Yii::$app->request;
+        $params = $request->get();
+        $id = $params['id'];
+
+        $game = Games::findOne(['id' => $id]);
+
+        $gameArr = $game->toArray();
+        $gameServices = ServiceGames::findAll(['games_id' => $game->id]);
+        foreach ($gameServices as $gameService)
+        {
+            $gameArr['services'][] = Service::findOne(['id' => $gameService->service_id])->toArray();
+        }
+
+        return $gameArr;
+
+    }
+
 }
