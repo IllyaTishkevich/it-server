@@ -93,7 +93,7 @@ class ApiController extends \yii\web\Controller
                 $user->updated_at = time();
                 $user->save(false);
 
-                return ['token' => $user->auth_key];
+                return $user->auth_key;
             }
         }
         return ['error' => 'Something went wrong.'];
