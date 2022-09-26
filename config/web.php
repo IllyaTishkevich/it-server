@@ -54,7 +54,19 @@ $config = [
                 [
                     'pattern' => 'api/lots/<id>',
                     'route' => 'api/lots',
-                ]
+                ],
+                [
+                    'pattern' => 'api/register/<login>/<password>/<email>',
+                    'route' => 'api/register',
+                ],
+                [
+                    'pattern' => 'api/user/<token>',
+                    'route' => 'api/user',
+                ],
+                [
+                    'pattern' => 'api/login/<login>/<password>',
+                    'route' => 'api/login',
+                ],
             ],
         ],
     ],
